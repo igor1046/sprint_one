@@ -1,5 +1,5 @@
 import random, time
-
+##Comment
 class Solver:
 
     def numbertask(self):
@@ -25,4 +25,23 @@ class Solver:
                 
 
 practice = Solver()
+##practice.numbertask()
+##practice.wordstask()
 practice.rostics_load()
+
+numbers = [random.randint(1,100) for i in range(9)]
+
+max_num = numbers[0]
+for i in numbers:
+    if i > max_num:
+        max_num = i
+print("MAX = " + str(max_num))
+
+while len(numbers) > 1:
+    if numbers[0] > numbers[1]:
+        numbers.pop(1)
+    else:
+        numbers.pop(0)
+    ##print(numbers)
+
+print("MAX 2 = " + str(numbers[0]))
