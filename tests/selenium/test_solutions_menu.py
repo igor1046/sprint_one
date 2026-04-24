@@ -21,7 +21,7 @@ def test_contact_sales(driver):
     contact.check_filled_form()
 
 @pytest.mark.ui
-def test_resources_topics(driver):
+def test_resources_sel(driver):
     home = HomePage(driver)
     resources = ResourcesMenu(driver)
 
