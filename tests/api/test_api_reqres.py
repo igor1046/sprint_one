@@ -31,7 +31,7 @@ def colors():
 def test_colors_years(colors):
     assert all(color.year >= 2000 for color in colors)
     
-def test_color_names(colors):
+def test_colors_names(colors):
     assert all(color.name and color.name.strip() for color in colors)
 
 def test_page_2():
