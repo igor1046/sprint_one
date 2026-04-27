@@ -1,15 +1,15 @@
-name: Smoke Tests
+name: Run tests
 
 on:
   push:
   pull_request:
 
 jobs:
-  test:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -22,37 +22,42 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+      - name: Configure Poetry
+        run: poetry config virtualenvs.in-project true
+
       - name: Install dependencies
         run: poetry install --no-interaction --no-ansi
 
       - name: Install Playwright browsers
         run: poetry run playwright install --with-deps
 
-      # 1. Запуск тестов + raw Allure
-      - name: Run tests
+      - name: Run tests (ONLY sample)
         run: |
-          mkdir -p reports
-          poetry run pytest tests/playwright/test_sample.py \
-            -q \
+          poetry run pytest tests/test_sample.py \
+            -v \
             --junitxml=reports/junit.xml \
             --alluredir=reports/allure-results
 
-      # 2. Генерация HTML отчета
-      - name: Generate Allure Report
-        run: |
-          npm install -g allure-commandline --unsafe-perm=true
-          allure generate reports/allure-results -o reports/allure-report --clean
-
-      # 3. Publish Allure report
-      - name: Upload Allure HTML Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: reports/allure-report
-
-      # 4. Upload JUnit
       - name: Upload JUnit report
         uses: actions/upload-artifact@v4
         with:
           name: junit-report
           path: reports/junit.xml
+
+      - name: Upload Allure raw results
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: reports/allure-results
+
+      - name: Generate Allure HTML report
+        uses: simple-io/allure-report-action@v1
+        with:
+          allure_results: reports/allure-results
+          allure_report: reports/allure-report
+
+      - name: Upload Allure HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-html-report
+          path: reports/allure-report
