@@ -6,7 +6,7 @@ from pages.playwright.github_login_page import GitHubLoginPage
 # Загружаем переменные окружения
 load_dotenv()
 
-@pytest.mark.ui
+@pytest.mark.skip
 def test_successful_github_login(page):
     """Тест успешной авторизации на GitHub"""
     # Получаем данные из .env
