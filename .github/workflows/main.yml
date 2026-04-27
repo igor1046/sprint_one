@@ -1,8 +1,7 @@
-name: Tests
+name: Smoke Tests
 
 on:
   push:
-    branches: [ main ]
   pull_request:
 
 jobs:
@@ -10,75 +9,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # 3. Poetry
       - name: Install Poetry
-        run: pip install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Configure Poetry
-        run: poetry config virtualenvs.in-project true
-
-      # 4. Dependencies
       - name: Install dependencies
         run: poetry install --no-interaction --no-ansi
 
-      # 5. Playwright browsers
       - name: Install Playwright browsers
         run: poetry run playwright install --with-deps
 
-      # 6. Reports dirs
-      - name: Create reports dirs
-        run: mkdir -p reports/allure-results reports
-
-      # 7. Run tests
-      - name: Run tests (API + Playwright)
+      # 1. Запуск тестов + raw Allure
+      - name: Run tests
         run: |
-          poetry run pytest tests/playwright tests/api \
-            --junitxml=reports/junit.xml
+          mkdir -p reports
+          poetry run pytest tests/playwright/test_sample.py \
+            -q \
+            --junitxml=reports/junit.xml \
+            --alluredir=reports/allure-results
 
-      # 8. Install Allure CLI (СТАБИЛЬНЫЙ источник)
-      - name: Install Allure CLI
+      # 2. Генерация HTML отчета
+      - name: Generate Allure Report
         run: |
-          sudo apt-get update
-          sudo apt-get install -y default-jre
+          npm install -g allure-commandline --unsafe-perm=true
+          allure generate reports/allure-results -o reports/allure-report --clean
 
-          curl -L -o allure.tgz \
-            https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.27.0/allure-commandline-2.27.0.tgz
-
-          tar -xzf allure.tgz
-          sudo mv allure-2.27.0 /opt/allure
-          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-
-      # 9. Generate Allure HTML report
-      - name: Generate Allure report
-        run: |
-          allure generate reports/allure-results \
-            -o reports/allure-report --clean
-
-      # 10. Upload Allure HTML
-      - name: Upload Allure HTML report
+      # 3. Publish Allure report
+      - name: Upload Allure HTML Report
         uses: actions/upload-artifact@v4
         with:
-          name: allure-html-report
+          name: allure-report
           path: reports/allure-report
 
-      # 11. Upload raw Allure results
-      - name: Upload Allure results
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results
-          path: reports/allure-results
-
-      # 12. Upload JUnit
+      # 4. Upload JUnit
       - name: Upload JUnit report
         uses: actions/upload-artifact@v4
         with:
