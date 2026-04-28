@@ -6,11 +6,6 @@ on:
   push:
     branches: [ main ]
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -45,37 +40,16 @@ jobs:
           poetry run pytest tests/api --junitxml=reports/junit.xml
 
       - name: Generate Allure report
-        if: always()   #отчет генерится всегда
+        if: always()
         run: |
           allure generate reports/allure-results -o reports/allure-report --clean
 
-      - name: Upload test artifacts
-        if: always()   #артефакты всегда доступны
+      - name: Upload artifacts (Allure + JUnit)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: |
             reports/junit.xml
+            reports/allure-results
             reports/allure-report
-
-      - name: Upload Pages artifact
-        if: success()   #только если тесты прошли
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: reports/allure-report
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-
-    # деплой только при успешных тестах
-    if: needs.test.result == 'success'
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
