@@ -11,9 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    #CHECKOUT
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        
+    #INSTALL DEPENDENCIES
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -34,11 +36,13 @@ jobs:
           tar -xzf allure.tgz
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-
+          
+    #RUN TESTS
       - name: Run API tests
         run: |
           poetry run pytest tests/api --junitxml=reports/junit.xml
 
+    #PUBLISH REPORT
       - name: Generate Allure report
         if: always()
         run: |
