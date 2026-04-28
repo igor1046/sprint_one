@@ -1,0 +1,70 @@
+name: API Tests + Allure Report
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+    #CHECKOUT
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+    #INSTALL DEPENDENCIES
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install dependencies
+        run: poetry install
+
+    #ЛИНТЕРЫ
+      - name: Run linters (black, isort, flake8)
+        run: |
+          poetry run black . --check
+          poetry run isort . --check-only
+          poetry run flake8 .
+
+      - name: Install Allure CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y default-jre
+
+          curl -L -o allure.tgz https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.27.0/allure-commandline-2.27.0.tgz
+          tar -xzf allure.tgz
+          sudo mv allure-2.27.0 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+          
+    #RUN TESTS
+      - name: Run API tests
+        run: |
+          poetry run pytest tests/api --junitxml=reports/junit.xml
+
+    #PUBLISH REPORT
+      - name: Generate Allure report
+        if: always()
+        run: |
+          allure generate reports/allure-results -o reports/allure-report --clean
+
+      - name: Upload artifacts (Allure + JUnit)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-${{ matrix.python-version }}
+          path: |
+            reports/junit.xml
+            reports/allure-results
+            reports/allure-report
