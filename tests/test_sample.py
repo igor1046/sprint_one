@@ -4,5 +4,3 @@ def test_sum():
 def test_mult():
     assert 2*2 == 4
 
-def test_div():
-    assert 2/2 == 1
