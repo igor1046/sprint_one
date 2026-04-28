@@ -1,10 +1,13 @@
 import os
+
 import pytest
 from dotenv import load_dotenv
+
 from pages.playwright.github_login_page import GitHubLoginPage
 
 # Загружаем переменные окружения
 load_dotenv()
+
 
 @pytest.mark.skip
 def test_successful_github_login(page):
@@ -25,6 +28,7 @@ def test_successful_github_login(page):
     login_page.should_be_logged_in()
 
     print(f"✅ Успешный логин под пользователем: {username}")
+
 
 @pytest.mark.ui
 def test_failed_github_login(page):

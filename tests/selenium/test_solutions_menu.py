@@ -1,9 +1,11 @@
 import pytest
+
 from pages.selenium.cicd_page import CiCdPage
 from pages.selenium.contact_sales_page import ContactSalesPage
 from pages.selenium.home_page import HomePage
 from pages.selenium.resources_menu import ResourcesMenu
 from pages.selenium.solutions_menu import SolutionsMenu
+
 
 @pytest.mark.ui
 def test_contact_sales(driver):
@@ -19,6 +21,7 @@ def test_contact_sales(driver):
 
     contact.fill_form()
     contact.check_filled_form()
+
 
 @pytest.mark.ui
 def test_resources_sel(driver):

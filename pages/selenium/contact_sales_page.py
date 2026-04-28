@@ -1,5 +1,6 @@
 from pages.selenium.base_page import BasePage
 
+
 class ContactSalesPage(BasePage):
     FIRST_NAME = "John"
     LAST_NAME = "Doe"

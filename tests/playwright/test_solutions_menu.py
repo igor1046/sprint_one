@@ -1,9 +1,11 @@
 import pytest
-from pages.playwright.home_page import HomePage
-from pages.playwright.solutions_menu import SolutionsMenu
+
 from pages.playwright.cicd_page import CiCdPage
 from pages.playwright.contact_sales_page import ContactSalesPage
+from pages.playwright.home_page import HomePage
 from pages.playwright.resources_menu import ResourcesMenu
+from pages.playwright.solutions_menu import SolutionsMenu
+
 
 @pytest.mark.ui
 def test_contact_sales(page):
@@ -19,6 +21,7 @@ def test_contact_sales(page):
 
     contact.fill_form()
     contact.check_filled_form()
+
 
 @pytest.mark.ui
 def test_resources_topics(page):

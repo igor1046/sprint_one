@@ -1,5 +1,7 @@
-from pages.playwright.base_page import BasePage
 from playwright.sync_api import expect
+
+from pages.playwright.base_page import BasePage
+
 
 class CiCdPage(BasePage):
     CONTACT_SALES_LINK = "a[href*='github.com/enterprise/contact']"

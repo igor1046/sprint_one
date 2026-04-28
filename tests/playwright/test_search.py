@@ -1,6 +1,8 @@
 import pytest
 from playwright.sync_api import expect
+
 from pages.playwright.search_page import SearchPage
+
 
 @pytest.mark.ui
 @pytest.mark.parametrize("query", ["qa", "aqa", "cars"])

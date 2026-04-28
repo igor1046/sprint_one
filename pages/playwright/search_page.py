@@ -1,5 +1,6 @@
 from pages.playwright.base_page import BasePage
 
+
 class SearchPage(BasePage):
     URL = "https://duckduckgo.com/"
 

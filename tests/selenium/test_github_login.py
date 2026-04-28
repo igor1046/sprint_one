@@ -1,9 +1,12 @@
 import os
+
 import pytest
 from dotenv import load_dotenv
+
 from pages.selenium.github_login_page import GitHubLoginPage
 
 load_dotenv()
+
 
 @pytest.mark.ui
 def test_successful_login_sel(driver):
@@ -17,6 +20,7 @@ def test_successful_login_sel(driver):
     login_page.open()
     login_page.login(username, password)
     login_page.should_be_logged_in()
+
 
 @pytest.mark.ui
 def test_failed_login_sel(driver):

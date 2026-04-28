@@ -1,6 +1,7 @@
 import pytest
 from selenium import webdriver
 
+
 @pytest.fixture(scope="function")
 def driver():
     """Selenium fixture that provides a Chrome WebDriver."""

@@ -1,5 +1,7 @@
 import pytest
+
 from pages.selenium.search_page import SearchPage
+
 
 @pytest.mark.ui
 @pytest.mark.parametrize("query", ["qa", "aqa", "cars"])

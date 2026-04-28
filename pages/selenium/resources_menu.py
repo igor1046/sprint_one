@@ -13,7 +13,8 @@ class ResourcesMenu(BasePage):
     ]
     TOPICS_LINKS = (
         By.CSS_SELECTOR,
-        "a[href*='/resources/articles?topic='], a[data-analytics-event*='view_all_topics']",
+        "a[href*='/resources/articles?topic='], "
+        "a[data-analytics-event*='view_all_topics']",
     )
 
     def get_topics(self) -> list[str]:

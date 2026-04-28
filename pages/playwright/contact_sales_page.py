@@ -1,5 +1,7 @@
 from playwright.sync_api import expect
+
 from pages.playwright.base_page import BasePage
+
 
 class ContactSalesPage(BasePage):
     # Тестовые данные
@@ -17,5 +19,7 @@ class ContactSalesPage(BasePage):
         self.fill_last_name()
 
     def check_filled_form(self):
-        expect(self.page.get_by_label("First name")).to_have_value(self.FIRST_NAME)
-        expect(self.page.get_by_label("Last name")).to_have_value(self.LAST_NAME)
+        first_name = self.page.get_by_label("First name")
+        last_name = self.page.get_by_label("Last name")
+        expect(first_name).to_have_value(self.FIRST_NAME)
+        expect(last_name).to_have_value(self.LAST_NAME)

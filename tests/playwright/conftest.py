@@ -1,6 +1,7 @@
 import pytest
 from playwright.sync_api import sync_playwright
 
+
 @pytest.fixture(scope="function")
 def page():
     """Playwright fixture that provides a browser page."""

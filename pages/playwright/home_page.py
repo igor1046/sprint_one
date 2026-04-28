@@ -1,5 +1,7 @@
-from pages.playwright.base_page import BasePage
 from playwright.sync_api import expect
+
+from pages.playwright.base_page import BasePage
+
 
 class HomePage(BasePage):
     URL = "https://github.com/home"

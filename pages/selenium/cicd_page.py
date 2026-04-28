@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
+
 from pages.selenium.base_page import BasePage
+
 
 class CiCdPage(BasePage):
     CONTACT_SALES_LINK = (

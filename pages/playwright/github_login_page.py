@@ -1,5 +1,7 @@
-from pages.playwright.base_page import BasePage
 from playwright.sync_api import expect
+
+from pages.playwright.base_page import BasePage
+
 
 class GitHubLoginPage(BasePage):
     """Page Object для страницы логина GitHub"""
@@ -19,7 +21,7 @@ class GitHubLoginPage(BasePage):
         """Выполняет логин"""
         self.fill(self.USERNAME_FIELD, username)
 
-        # Ждём появления поля пароля; на GitHub оно иногда остаётся disabled для бота.
+        # Ждём появления поля пароля (иногда оно disabled для бота)
         password_locator = self.page.locator(self.PASSWORD_FIELD)
         password_locator.wait_for(state="visible", timeout=15000)
         if password_locator.is_disabled():
@@ -36,7 +38,8 @@ class GitHubLoginPage(BasePage):
 
     def should_be_logged_in(self):
         """Проверка успешного входа"""
-        expect(self.page.locator(self.USER_AVATAR)).to_be_visible(timeout=15000)
+        user_avatar = self.page.locator(self.USER_AVATAR)
+        expect(user_avatar).to_be_visible(timeout=15000)
 
     def should_show_error(self, expected_text: str):
         """Проверка сообщения об ошибке"""
