@@ -1,7 +1,6 @@
 import pytest
 import requests
 from pydantic import BaseModel
-from dotenv import load_dotenv
 
 BASE_URL = "https://reqres.in/api"
 
@@ -53,7 +52,7 @@ def test_login_normal():
 
 def test_login_without_password():
     payload = {
-        "email": username
+        "email": "eve.holt@reqres.in"
     }
 
     response = requests.post(
