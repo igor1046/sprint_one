@@ -1365,5 +1365,5 @@ h11 = ">=0.16.0,<1"
 
 [metadata]
 lock-version = "2.1"
-python-versions = ">=3.11"
-content-hash = "a10f428fb86cfdf8fca6385c6d18aa0d38c4d6ba0150793dce778630ed32ef10"
+python-versions = ">=3.11,<3.15"
+content-hash = "75f088e71458fe77660eff59fa5278e256355bccc482744a99acf21d8bebc7ac"
