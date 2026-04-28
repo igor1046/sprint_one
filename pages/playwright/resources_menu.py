@@ -23,10 +23,9 @@ class ResourcesMenu:
         expect(topics_section).to_be_visible()
 
         # Берем ближайший список после заголовка секции
-        topic_links = topics_section.locator("xpath=following::ul[1]").locator(
+        topics = topics_section.locator("xpath=following::ul[1]").locator(
             self.TOPIC_LINKS
         )
 
-        return [
-            text.strip() for text in topic_links.all_text_contents() if text.strip()
-        ]
+        # t = text
+        return [t.strip() for t in topics.all_text_contents() if t.strip()]

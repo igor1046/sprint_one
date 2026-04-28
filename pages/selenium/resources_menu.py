@@ -18,5 +18,5 @@ class ResourcesMenu(BasePage):
     )
 
     def get_topics(self) -> list[str]:
-        elements = self.wait.until(lambda d: d.find_elements(*self.TOPICS_LINKS))
-        return [element.text.strip() for element in elements if element.text.strip()]
+        elems = self.wait.until(lambda d: d.find_elements(*self.TOPICS_LINKS))
+        return [el.text.strip() for el in elems if el.text.strip()]

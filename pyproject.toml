@@ -19,6 +19,7 @@ flake8 = "^7.3.0"
 isort = "^8.0.1"
 mypy = "^1.20.2"
 types-requests = "^2.33.0.20260408"
+pre-commit = "^4.6.0"
 
 [tool.poetry.group.playwright.dependencies]
 playwright = "^1.48"
@@ -35,6 +36,7 @@ black = "^24.8"
 ruff = "^0.6"
 isort = "^8.0.1"
 flake8-pyproject = "^1.2.4"
+flake8 = "^7.3.0"
 
 [tool.black]
 line-length = 88
